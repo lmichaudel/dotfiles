@@ -1,75 +1,60 @@
-local map = vim.keymap.set
-
--- save
-map("n", "<D-s>", "<cmd>w<CR>", { desc = "File Save" })
-map("n", "<leader>w", "<cmd>w<CR>", { desc = "File Save" })
--- quit
-map("n", "<leader>a", "<CMD>qa!<cr>", { desc = "Quit all" })
-map("n", "<leader>q", "<CMD>wqall<cr>", { desc = "Save & Quit All" })
--- run
-map("n", "<F4>", "<cmd>CMakeRun<cr>", { desc = "CMake Run" })
-map("n", "<F5>", "<cmd>make<cr>", { desc = "Make" })
-map("n", "<F6>", "<cmd>make<cr>", { desc = "Make" }) -- do smth for ocaml
-
--- indent
-map("v", "<", "<gv", { desc = "Indent left" })
-map("v", ">", ">gv", { desc = "Indent right" })
-
--- move buffer
-map("i", "<C-b>", "<ESC>^i", { desc = "Move Beginning of line" })
-map("i", "<C-e>", "<End>", { desc = "Move End of line" })
-map("i", "<C-h>", "<Left>", { desc = "Move Left" })
-map("i", "<C-l>", "<Right>", { desc = "Move Right" })
-map("i", "<C-j>", "<Down>", { desc = "Move Down" })
-map("i", "<C-k>", "<Up>", { desc = "Move Up" })
--- move windows
-map("n", "<C-h>", "<C-w>h", { desc = "Switch Window left" })
-map("n", "<C-l>", "<C-w>l", { desc = "Switch Window right" })
-map("n", "<C-j>", "<C-w>j", { desc = "Switch Window down" })
-map("n", "<C-k>", "<C-w>k", { desc = "Switch Window up" })
-
--- Lazy
+-- LAZY
 require("lazy.view.config").keys.close = "<Esc>"
-map("n", "<leader>p", "<CMD>Lazy<CR>", { desc = "Open Lazy" })
--- oil
-map("n", "-", "<CMD>Oil<CR>", { desc = "Oil" })
--- telescope
-map("n", "<leader><leader>", "<cmd>Telescope oldfiles <cr>", { desc = "Find Old File" })
-map("n", "<leader>ff", "<cmd>Telescope find_files <cr>", { desc = "Find File" })
-map("n", "<leader>fp", "<cmd>Telescope neovim-project discover <cr>", { desc = "Find Project" })
-map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols <cr>", { desc = "Find Symbol" })
--- todo fg for grep
---hop
-map("n", "f", "<cmd>HopWord<cr>", { desc = "Hop" })
--- lsp
-map("n", "<leader>li", "<cmd>Lsp Info<cr>", { desc = "LSP Info" })
+vim.keymap.set("n", "<leader>p", "<CMD>Lazy<CR>")
 
--- cmake
-map("n", "<leader>st", "<cmd>lua require 'telescope'.extensions.cmake4vim.select_target {} <cr>",
-  { desc = "Select CMake Target" })
-map("n", "<leader>sk", "<cmd>lua require 'telescope'.extensions.cmake4vim.select_kit {} <cr>",
-  { desc = "Select CMake Kit" })
-map("n", "<leader>sb", "<cmd>lua require 'telescope'.extensions.cmake4vim.select_build_type {} <cr>",
-  { desc = "Select CMake Build Type" })
+-- SAVE
+vim.keymap.set("n", "<D-s>", "<cmd>w<CR>")
 
--- format
-map("n", "<leader>fm", function() require("conform").format { lsp_fallback = true } end, { desc = "Format" })
+-- SEARCH
+vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
+-- MOVEMENT
+vim.keymap.set('i', '<A-h>', '<Left>')
+vim.keymap.set('i', '<A-j>', '<Down>')
+vim.keymap.set('i', '<A-k>', '<Up>')
+vim.keymap.set('i', '<A-l>', '<Right>')
 
--- -- Tabs
--- map("n", "<tab>", ":bnext<CR>", { desc = "Buffer Goto next" })
--- map("n", "<S-tab>", ":bnext<CR>", { desc = "Buffer Goto prev" })
--- map("n", "<leader>x", "<cmd>w<CR><cmd>BufferClose<CR>", { desc = "Buffer Close" })
--- -- Comment
--- map("n", "<leader>/", function() require("Comment.api").toggle.linewise.current() end, { desc = "Comment Toggle" })
--- map("v", "<leader>/", "<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>",
---   { desc = "Comment Toggle" })
--- -- Lsp
--- map("n", "<leader>lf", vim.diagnostic.open_float, { desc = "[L]sp [F]loating diagnostics" })
--- map("n", "[d", vim.diagnostic.goto_prev, { desc = "Lsp prev diagnostic" })
--- map("n", "]d", vim.diagnostic.goto_next, { desc = "Lsp next diagnostic" })
+-- RUN
+vim.keymap.set("n", "<F4>", "<cmd>make<cr>")
+vim.keymap.set("n", "<F5>", "<cmd>!ocaml %:p<cr>")
 
--- -- Toggleterm
--- map("n", "<leader>t", "<cmd>ToggleTerm <CR>", { desc = "[T]oggle terminal" })
--- --["<leader>x"] = { "<cmd>w<CR><cmd>BufferClose<CR>", "Close tab" },
--- --["<leader>a"] = { ":Ouroboros <CR>", "Switch header/source" },
+-- INDENT
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+-- SPLITS, WINDOW, BUFFER
+vim.keymap.set('n', '<C-h>', require('smart-splits').resize_left)
+vim.keymap.set('n', '<C-j>', require('smart-splits').resize_down)
+vim.keymap.set('n', '<C-k>', require('smart-splits').resize_up)
+vim.keymap.set('n', '<C-l>', require('smart-splits').resize_right)
+--
+vim.keymap.set('n', 'H', require('smart-splits').move_cursor_left, { noremap = true })
+vim.keymap.set('n', 'J', require('smart-splits').move_cursor_down, { noremap = true })
+vim.keymap.set('n', 'K', require('smart-splits').move_cursor_up, { noremap = true }) -- TODO conflict with lsp
+vim.keymap.set('n', 'L', require('smart-splits').move_cursor_right, { noremap = true })
+--
+vim.keymap.set('n', '<leader><leader>h', require('smart-splits').swap_buf_left)
+vim.keymap.set('n', '<leader><leader>j', require('smart-splits').swap_buf_down)
+vim.keymap.set('n', '<leader><leader>k', require('smart-splits').swap_buf_up)
+vim.keymap.set('n', '<leader><leader>l', require('smart-splits').swap_buf_right)
+--
+vim.keymap.set('n', '<A-ù>', '<cmd>vsplit<cr>')
+vim.keymap.set('n', '<A-$>', '<cmd>split<cr>')
+vim.keymap.set('n', '<A-q>', '<cmd>q<cr>')
+
+-- OIL
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Oil" })
+
+-- SEARCH
+vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>")
+vim.keymap.set("n", "<leader>fh", "<cmd>FzfLua oldfiles<cr>")
+vim.keymap.set("n", "<leader>fp", "<cmd>NeovimProjectDiscover<cr>")
+-- vim.keymap.set("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols <cr>", { desc = "Find Symbol" })
+vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep <cr>")
+-- vim.keymap.set("n", "<leader>f:", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Fuzzy find in Buffer" })
+
+-- TABS
+vim.keymap.set("n", "<left>", "<cmd>tabprevious<cr>")
+vim.keymap.set("n", "<right>", "<cmd>tabnext<cr>")
+vim.keymap.set("n", "<up>", "")
+vim.keymap.set("n", "<down>", "")

@@ -2,14 +2,14 @@ local opt = vim.opt
 local o = vim.o
 local g = vim.g
 
--- colors
+-- colors & theme
 o.termguicolors = true
 
--- Hide status line
-o.laststatus = 0
-o.showmode = false
-o.statuscolumn = ""
+-- Status and Tab line
+o.laststatus = 3
+o.showtabline = 0
 
+-- Cliboard
 o.clipboard = "unnamedplus"
 o.cursorline = true
 o.cursorlineopt = "number"
@@ -21,18 +21,18 @@ o.smartindent = true
 o.tabstop = 2
 o.softtabstop = 2
 
-opt.fillchars = { eob = " " }
+
 o.ignorecase = true
 o.smartcase = true
 o.mouse = "a"
 
--- Numbers
 o.number = true
 o.numberwidth = 2
 o.ruler = false
 
--- disable nvim intro
-opt.shortmess:append "sI"
+opt.fillchars = { eob = " " }
+opt.completeopt = { "menu", "menuone" }
+opt.shortmess:append "csI"
 
 o.signcolumn = "no"
 o.splitbelow = true
@@ -43,18 +43,8 @@ o.undodir = '/Users/lucas/.cache/nvim/undodir'
 o.autoread = true
 o.swapfile = false
 
--- interval for writing swap file to disk, also used by gitsigns
-o.updatetime = 200
-
--- go to previous/next line with h,l,left arrow and right arrow
--- when cursor reaches end/beginning of line
+-- go to previous/next line with h,l
 opt.whichwrap:append "<>[]hl"
-
--- disable some default providers
-g["loaded_node_provider"] = 0
-g["loaded_python3_provider"] = 0
-g["loaded_perl_provider"] = 0
-g["loaded_ruby_provider"] = 0
 
 -- disable tree
 g.loaded_netrw = 1

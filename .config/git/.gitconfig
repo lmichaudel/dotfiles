@@ -1,7 +1,7 @@
 [user]
 	email = lucas.michaudel@gmail.com
 	name = Lucas Michaudel
-	signingkey = 596E1879D69D21FA
+	signingkey = 0139A35A23184C0D
 [gpg]
 	program = gpg
 [commit]
@@ -12,7 +12,8 @@
 	proxy = config --global http.proxy http://10.0.0.1:3128
 	noproxy = config --global --unset http.proxy
 [credential]
-	helper = 
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[core]
+	autocrlf = input

@@ -21,6 +21,8 @@ return {
         projects = {
           "~/dev/*",
           "~/MP2I/info/TP/*",
+          "~/MP2I/info/sup/TP/*",
+          "~/TIPE/*"
         },
         last_session_on_startup = false,
         dashboard_mode = true
@@ -73,6 +75,8 @@ return {
       ["ui-select"] = {
         require("telescope.themes").get_dropdown(),
       },
+      fzf = {},
+      wrap_results = true
     }
 
     require("telescope").setup(opts)

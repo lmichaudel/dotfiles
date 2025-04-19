@@ -1,82 +1,63 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  })
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
-  {
-    { import = "plugins.themes" },          -- One Dark Pro <3
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
-    { import = "plugins.lang.lsp" },        -- Lsp, Snippets, Linters, Formatters
-    { import = "plugins.lang.cmp" },        -- Completion UI
-    { import = "plugins.lang.treesitter" }, -- Syntax highlighting
-    { import = "plugins.lang.cmake" },      -- CMake
+require("lazy").setup({
+  spec = {
+    { "nvim-tree/nvim-web-devicons" },
+    { "mrjones2014/smart-splits.nvim" },
 
-    { import = "plugins.tools.telescope" }, -- Fuzzy searching
-    { import = "plugins.tools.hop" },       -- Fast navigation
+    { import = "plugins.themes" },
+    { import = "plugins.lang.completion" },
+    { import = "plugins.lang.treesitter" },
+    { import = "plugins.tools.projects" },
+    { import = "plugins.tools.fzf-lua" },
+    { import = "plugins.tools.comment" },
     { import = "plugins.tools.oil" },
-
-    { import = "plugins.ui.alpha" },    -- Dashboard
-    { import = "plugins.ui.dressing" }, -- Better prompts
-    { import = "plugins.ui.noice" },
-    --{ import = "plugins.ui.lualine" },
-
-    { import = "plugins.misc.which-key" }, -- Keymaps
-    --{ import = "plugins.misc.presence" }    -- Discord RPC
+    --{ import = "plugins.ui.incline" },
+    { import = "plugins.ui.lualine" }
   },
-  {
-    --defaults = { lazy = true },
-    install = { colorscheme = { "onedark" } },
-    ui = {
-      border = "rounded",
-      backdrop = 100
-    },
-    performance = {
-      rtp = {
-        disabled_plugins = {
-          "2html_plugin",
-          "tohtml",
-          "getscript",
-          "getscriptPlugin",
-          "gzip",
-          "logipat",
-          "netrw",
-          "netrwPlugin",
-          "netrwSettings",
-          "netrwFileHandlers",
-          "matchit",
-          "tar",
-          "tarPlugin",
-          "rrhelper",
-          "spellfile_plugin",
-          "vimball",
-          "vimballPlugin",
-          "zip",
-          "zipPlugin",
-          "tutor",
-          "rplugin",
-          "syntax",
-          "synmenu",
-          "optwin",
-          "compiler",
-          "bugreport",
-          "ftplugin",
-        },
-      },
-    },
-  }
-)
 
-require("options")
+  install = { colorscheme = { "onedark" } },
+  checker = { enabled = false },
+})
+
+local colorschemes = {
+  ["onedark"] = "onedarkpro",
+  ["gruvbox-material"] = "gruvbox_material_dark_medium",
+  ["onedarkpro"] = "onedark",
+  ["gruvbox_material_dark_medium"] = "gruvbox-material",
+}
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("wezterm_colorscheme", { clear = true }),
+  callback = function(args)
+    local colorscheme = colorschemes[args.match]
+    if not colorscheme then
+      return
+    end
+
+    local filename = vim.fn.expand("~/.config/wezterm/colorscheme")
+    assert(type(filename) == "string")
+    local file = io.open(filename, "w")
+    assert(file)
+    file:write(colorscheme)
+    file:close()
+  end,
+})
+
+local filename = vim.fn.expand("~/.config/wezterm/colorscheme")
+assert(type(filename) == "string")
+local file = io.open(filename, "r")
+assert(file)
+vim.cmd("colorscheme " .. colorschemes[file:read('l')])
+
 require("mappings")
+require("options")
+require("lsp")

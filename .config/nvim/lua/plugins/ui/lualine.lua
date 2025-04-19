@@ -1,39 +1,54 @@
 return {
   'nvim-lualine/lualine.nvim',
-  lazy = false,
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-    "SantinoKeupp/lualine-cmake4vim.nvim"
-  },
-  opts = {
-    options = {
-      theme = 'onedark',
-      component_separators = { left = '|', right = '|' },
-      section_separators = { left = '', right = '' },
-      disabled_filetypes = {
-        statusline = {
-          'alpha',
-          'NvimTree',
-          'toggleterm',
-          'Lazy'
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  config = function()
+    require('lualine').setup {
+      options = {
+        icons_enabled = true,
+        theme = 'auto',
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
+        disabled_filetypes = {
+          statusline = {},
+          winbar = {},
+        },
+        ignore_focus = {},
+        always_divide_middle = true,
+        always_show_tabline = true,
+        globalstatus = false,
+        refresh = {
+          statusline = 100,
+          tabline = 100,
+          winbar = 100,
         }
-      }
-    },
-    sections = {
-      lualine_a = { { 'mode', fmt = function(str) return str:sub(1, 1) end } },
-      lualine_b = {},
-      lualine_c = {
-        { "filename" },
       },
-      lualine_x = { {
-        "cmake4vim",
-        prefix = "CMake ",          -- Text to show befor the actual configuration
-        cmake4vim_separator = ", ", -- Seperator used between the configuration items
-        colored = true,             -- Displays filetype icon in color if set to true
-      } },
-      lualine_y = {},
-      lualine_z = {},
-    },
-    --extensions = { 'nvim-tree', 'toggleterm', 'fzf', 'mason' },
-  }
+      sections = {
+        lualine_a = { 'tabs' },
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      inactive_sections = {},
+      tabline = {},
+      winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename' },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      inactive_winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { 'filename' },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
+      extensions = {}
+    }
+  end
 }

@@ -2,7 +2,11 @@ return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   opts = {
-    ensure_installed = require("const").treesitter,
+    ensure_installed = {
+      "cpp",
+      "c",
+      "ocaml"
+    },
     auto_install = false,
     highlight = {
       enable = true,

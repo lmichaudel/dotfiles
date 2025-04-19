@@ -1,3 +1,5 @@
 .DS_Store
+.idea/
+.vscode/
 .config/iterm2/AppSupport
 packages.brew.lock.json
