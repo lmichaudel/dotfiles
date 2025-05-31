@@ -1,5 +1,6 @@
 tap "homebrew/cask-fonts" 
 
+brew "bear"
 brew "clang-format"
 brew "cmake"
 brew "eza"
